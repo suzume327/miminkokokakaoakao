@@ -59,7 +59,9 @@ body{margin:0;background:#f6f7f3;color:var(--host-fg);font-family:'Inter',system
 #sk .result{display:flex;gap:14px;border:1px solid var(--host-border);border-radius:12px;padding:14px;margin-bottom:14px;background:var(--host-card);}
 #sk .result .rt{width:94px;height:120px;border-radius:10px;overflow:hidden;flex:0 0 auto;background:var(--host-muted);position:relative;display:flex;align-items:center;justify-content:center;}
 #sk .result .rt img{width:100%;height:100%;object-fit:cover;object-position:50% 8%;position:relative;z-index:1;}
-#sk .special{margin-top:8px;padding:8px 10px;border-radius:9px;background:var(--gsoft);font-size:13px;line-height:1.5;}
+#sk .special{margin-top:8px;padding:8px 10px;border-radius:9px;background:var(--gsoft);font-size:13px;line-height:1.5;display:flex;gap:8px;align-items:flex-start;}
+#sk .special .sav{width:26px;height:26px;border-radius:50%;overflow:hidden;flex:0 0 auto;position:relative;display:flex;align-items:center;justify-content:center;}
+#sk .special .sav img{width:100%;height:100%;object-fit:cover;object-position:50% 8%;}
 #sk .special b{color:var(--gacc);font-size:11px;display:block;margin-bottom:2px;font-weight:500;}
 #sk .row{display:flex;gap:8px;}
 #sk .view{display:none;} #sk .view.on{display:block;}
@@ -102,83 +104,87 @@ body{margin:0;background:#f6f7f3;color:var(--host-fg);font-family:'Inter',system
 <script>
 (function(){
   var KEY='fapTracker_logs_v5';
+  var GH='https://cdn.jsdelivr.net/gh/suzume327/miminkokokakaoakao@main/';
   var GIRLS={
-    akatsuki:{name:'暁',c:'#8b7fd4',role:'煽り',img:'akatsuki.png'},
-    sparkle:{name:'花火',c:'#e05a7a',role:'煽り',img:'sparkle.png'},
-    firefly:{name:'ホタル',c:'#8a9099',role:'誘い',img:'firefly.png'},
-    illustrious:{name:'イラストリアス',c:'#6f9fe0',role:'称賛',img:'illustrious.png'}
+    akatsuki:{name:'暁',c:'#8b7fd4',role:'煽り',img:GH+'akatsuki.png'},
+    sparkle:{name:'花火',c:'#e05a7a',role:'煽り',img:GH+'sparkle.png'},
+    firefly:{name:'ホタル',c:'#8a9099',role:'誘い',img:GH+'firefly.png'},
+    illustrious:{name:'イラストリアス',c:'#6f9fe0',role:'称賛',img:GH+'illustrious.png'},
+    hibiki:{name:'響',c:'#9aa4b0',role:'特別',img:GH+'hibiki.png'},
+    ikazuchi:{name:'雷',c:'#c98a5a',role:'特別',img:GH+'ikazuchi.png'},
+    chino:{name:'智乃',c:'#7f9fd4',role:'特別',img:GH+'chino.png'},
+    unicorn:{name:'ユニコーン',c:'#a98fd4',role:'特別',img:GH+'unicorn.png'},
+    eldridge:{name:'エルドリッジ',c:'#d4c07f',role:'特別',img:GH+'eldridge.png'},
+    aqua:{name:'あくあ',c:'#d47fa8',role:'特別',img:GH+'aqua.png'},
+    chloe:{name:'クロヱ',c:'#8a8a92',role:'特別',img:GH+'chloe.png'},
+    lamy:{name:'ラミィ',c:'#8fc4d4',role:'特別',img:GH+'lamy.png'},
+    cocoa:{name:'ココア',c:'#d48a5a',role:'特別',img:GH+'cocoa.png'},
+    chiya:{name:'千夜',c:'#8ab07f',role:'特別',img:GH+'chiya.png'}
   };
   var TIERS=[
-    {max:1,label:'即イキ',girl:'akatsuki',col:'#e05a7a',lines:[
-      'は、早いっ！ レディの前でそんな…早漏…っ',
-      '変態…早漏…♡ もう出しちゃったの、はやっ',
-      'え、もう終わり？ レディとしてどうなのよ…♡',
-      'ふん、私がエレガントすぎたからでしょ…♡ 早いのは私のせいじゃないわ',
-      'ちょっと、もうイッたの？ 早すぎ…変態♡'
+    {max:1,label:'即イキ',col:'#e05a7a',picks:[
+      {girl:'sparkle',lines:['あははっ、もう終わり？ 早すぎだよ。観客席から笑っちゃう♡','0分台〜？ 君、スタートと同時にゴールしてるよ。面白いなあ♡']},
+      {girl:'chloe',lines:['はやっ。おいおい、1分も持たんのか。…雑魚やんけ♡','クロヱ、まだ準備運動のつもりやったわ。…早すぎやろ♡']},
+      {girl:'aqua',lines:['え、もう？ はやすぎ！ あくあでも笑っちゃうよ？♡','オラオラ〜、って言ったそばから終わった！ ポンコツ〜♡']},
+      {girl:'akatsuki',lines:['は、早いっ！ レディの前でそんな…早漏…っ','え、もう終わり？ レディとしてどうなのよ…♡']}
     ]},
-    {max:3,label:'雑魚',girl:'sparkle',col:'#e05a7a',lines:[
-      'あははっ、雑魚〜♡ そんなすぐイッちゃうんだ',
-      '観客席から笑っちゃうよ、それ♡ 早い早い',
-      '面白いね〜♡ 君、すぐ終わるんだ。舞台はまだ序盤だよ？',
-      '雑魚〜♡ 千の仮面の前で、3分も持たないんだ？',
-      'ふふっ、愉しいなあ♡ そんな早漏、見てて飽きないよ'
+    {max:3,label:'雑魚',col:'#e05a7a',picks:[
+      {girl:'sparkle',lines:['雑魚〜♡ そんなすぐイッちゃうんだ','3分も持たないの？ ふふ、愉しいなあ♡']},
+      {girl:'chloe',lines:['3分か。…まあ、雑魚やな♡','クロヱで抜いといて、そんな早よ終わってええんか？♡']},
+      {girl:'aqua',lines:['ポンコツ〜♡ そんなんで満足しちゃったの？','ふん、あくあの勝ちだね。雑魚〜♡']}
     ]},
-    {max:8,label:'ふつう',girl:'firefly',col:'#8a9099',lines:[
-      'ふーん、まあまあだね。…もう一回抜いてく♡？',
-      'うん、いい感じ。ホタル、ちゃんと見てたよ',
-      'おつかれさま。…次も付き合うよ、ね？♡',
-      'ふつう、だね。でも私は好きだよ、そのペース',
-      'ん、合格。…あ、甘いもの食べたくなるね。もう一回？'
+    {max:8,label:'ふつう',col:'#8a9099',picks:[
+      {girl:'firefly',lines:['ふーん、まあまあだね。…もう一回抜いてく♡？','うん、いい感じ。ホタル、ちゃんと見てたよ']},
+      {girl:'cocoa',lines:['うんうん、いい感じ！ ココア、見てたよっ','お姉ちゃん的には合格！ …もっと頑張ってもいいよ？']},
+      {girl:'chino',lines:['…ふつう、ですね。悪くないと思います…ですぅ','そ、そこそこのタイム…。…ですぅ']},
+      {girl:'chiya',lines:['あら、標準的ですね。…ふふ、健康的でよろしいのでは？','5分前後…。バランスが取れていますね。…うふふ']}
     ]},
-    {max:20,label:'えらい',girl:'illustrious',col:'#6f9fe0',lines:[
-      'えらいですわ....♡ ちゃんと我慢できたのですね...♡',
-      'まあ、8分も…。お上手ですわ、指揮官さま♡',
-      'よく我慢なさいました。イラストリアス、感心しましたわ♡',
-      'その粘り…。素敵ですわ、指揮官さま♡'
+    {max:20,label:'えらい',col:'#6f9fe0',picks:[
+      {girl:'illustrious',lines:['えらいですわ....♡ ちゃんと我慢できたのですね...♡','まあ、8分も…。お上手ですわ、指揮官さま♡']},
+      {girl:'ikazuchi',lines:['あら、頑張ったのね。…えらいわ、私が褒めてあげる♡','司令官、その調子。…もっと私に頼っていいのよ♡']},
+      {girl:'lamy',lines:['まあ、お上手ですわね…。ラミィ、感心しましたの♡','8分超え…。素敵ですわ、指揮官さま♡']},
+      {girl:'unicorn',lines:['お兄ちゃん、すごい…！ ユニコーン、尊敬しちゃいます♡','お兄ちゃん、えらいです…。ぎゅってしてあげますね♡']}
     ]},
-    {max:40,label:'達人',girl:'illustrious',col:'#6f9fe0',lines:[
-      'すごい…！ そんなに持つなんて、尊敬しちゃいます♡',
-      '20分超えですの…？ 指揮官さま、お強いのですね♡',
-      'まあ…！ これほどとは。さすがですわ、うっとりします♡'
+    {max:40,label:'達人',col:'#6f9fe0',picks:[
+      {girl:'illustrious',lines:['すごい…！ そんなに持つなんて、尊敬しちゃいます♡','20分超えですの…？ 指揮官さま、お強いのですね♡']},
+      {girl:'lamy',lines:['20分超えですの…？ お強いですわね、指揮官さま♡','まあ…！ これほどとは。ラミィ、うっとりしましたわ♡']},
+      {girl:'ikazuchi',lines:['この雷様も感心するわ…。あなた、やるじゃないの♡','司令官…20分よ？ 私、見直しちゃった♡']}
     ]},
-    {max:Infinity,label:'仙人',girl:'illustrious',col:'#6f9fe0',lines:[
-      '指揮官様…早く、その濃いのを私の赤ちゃん部屋に注いでくださいませ....♡',
-      '40分…！ もう人間ではありませんわ、仙人ですの…♡',
-      'ここまで来ると芸術ですわね…。指揮官さま、愛していますわ♡'
+    {max:Infinity,label:'仙人',col:'#6f9fe0',picks:[
+      {girl:'illustrious',lines:['指揮官様…早く、その濃いのを私の赤ちゃん部屋に注いでくださいませ....♡','40分…！ もう人間ではありませんわ、仙人ですの…♡']},
+      {girl:'lamy',lines:['40分…！ もう人間ではありませんわ、仙人ですの…♡','ここまで来ると芸術ですわね…。ラミィ、愛していますわ♡']},
+      {girl:'firefly',lines:['40分って…。ホタル、感動しちゃった。君、すごいよ','この粘り…。ホタル、ずっと見てた。尊敬するよ♡']}
     ]}
   ];
-  var SPECIALS=[
-    {tag:'暁',girl:'akatsuki',lines:[
-      'わ、私で抜いたの…？ ふ、ふん、当然よ。レディですもの♡',
-      '私のおっぱいで…？ エレガントだったでしょ、認めなさいよ♡',
-      'あ、暁で抜いたんだ…♡ 子ども扱いしないでよね、レディなんだから'
-    ]},
-    {tag:'花火',girl:'sparkle',lines:[
-      '花火のおっぱい、きもちよかったんだぁ〜♡',
-      '私ので抜いたんだ？ ふふ、それって私の勝ちだよね♡',
-      '千の仮面…じゃなくて、この胸にやられた？ 愉しいなあ♡'
-    ]},
-    {tag:'ホタル',girl:'firefly',lines:[
-      '私で抜いてくれたんだ…♡ うれしいな、もっと見てていいよ',
-      'ホタルのおっぱい、気持ちよかった？ …えへへ♡',
-      'ん…ありがとう。私も、君のこと好きだよ♡'
-    ]},
-    {tag:'イラストリアス',girl:'illustrious',lines:[
-      'あらあら、イラストリアスで…♡ ふふ、光栄ですわ',
-      '私のおっぱいで抜いたのですね。指揮官さま、うれしいですわ♡',
-      '指揮官さま…私でよかったのなら、いくらでもどうぞ♡'
-    ]},
-    {tag:'ロリ巨乳',girl:'akatsuki',lines:[
-      'ロリ巨乳…？ 私のことかしら。小さいけど、ここは大きいのよ♡',
-      'ち、違うわよ…体は小さいけどおっぱいは立派なのっ、レディなのっ♡',
-      'ロリ巨乳で抜いたのね？ ふん、これが本物のエレガントよ♡'
-    ]}
+  var CHARS=[
+    {tag:'暁',girl:'akatsuki'},{tag:'花火',girl:'sparkle'},{tag:'ホタル',girl:'firefly'},{tag:'イラストリアス',girl:'illustrious'},
+    {tag:'響',girl:'hibiki',group:'loli'},{tag:'雷',girl:'ikazuchi',group:'loli'},{tag:'智乃',girl:'chino',group:'loli'},{tag:'ユニコーン',girl:'unicorn',group:'loli'},{tag:'エルドリッジ',girl:'eldridge',group:'loli'},
+    {tag:'あくあ',girl:'aqua'},{tag:'クロヱ',girl:'chloe'},{tag:'ラミィ',girl:'lamy'},{tag:'ココア',girl:'cocoa'},{tag:'千夜',girl:'chiya'}
   ];
-  var CHIP_TAGS=['#暁','#花火','#ホタル','#イラストリアス','#ロリ巨乳','#爆乳','#パイズリ','#着衣パイズリ','#裸パイズリ','#挟射','#おっぱい','#VR','#漫画','#音声'];
+  var SLINES={
+    akatsuki:['わ、私で抜いたの…？ ふ、ふん、当然よ。レディですもの♡','私のおっぱいで…？ エレガントだったでしょ、認めなさいよ♡','あ、暁で抜いたんだ…♡ 子ども扱いしないでよね、レディなんだから'],
+    sparkle:['花火のおっぱい、きもちよかったんだぁ〜♡','私ので抜いたんだ？ ふふ、それって私の勝ちだよね♡','千の仮面…じゃなくて、この胸にやられた？ 愉しいなあ♡'],
+    firefly:['私で抜いてくれたんだ…♡ うれしいな、もっと見てていいよ','ホタルのおっぱい、気持ちよかった？ …えへへ♡','ん…ありがとう。私も、君のこと好きだよ♡'],
+    illustrious:['あらあら、イラストリアスで…♡ ふふ、光栄ですわ','私のおっぱいで抜いたのですね。指揮官さま、うれしいですわ♡','指揮官さま…私でよかったのなら、いくらでもどうぞ♡'],
+    hibiki:['ハラショー…。私で抜いたんだ。…悪くないね','響のおっぱい、気に入った？ …そう。うれしいよ','ふぅん…。ダースビダーニャ。…またきてね'],
+    ikazuchi:['雷よ！ …かみなりじゃないわよ。ふふ、私で抜いたのね。えらいわ','司令官、私がいるじゃない。…もーっと私に頼っていいのよ♡','この雷様に敵うとでも思ったの？ …ふふ、いい度胸じゃない'],
+    chino:['わ、私で…？ …ですぅ。はずかしいです…♡','智乃のおっぱい…？ 小さいけど、ここは大きいんです…ですぅ','…そんなにじろじろ見ないでください。…ですぅ♡'],
+    unicorn:['お兄ちゃんがユニコーンで…♡ えへへ、うれしいです','ユニコーンのおっぱい、気持ちよかった？ …もっとしていいですよ、お兄ちゃん♡','お兄ちゃん…ユニコーン、うれしいな。ぎゅってしていいですか？♡'],
+    eldridge:['エルドリッジで抜いた。…記録、完了','びりびり、きた。…エルドリッジのおっぱい、効果あった？','……。観測。抜いた。…エルドリッジ、うれしい、らしい'],
+    aqua:['あくあで抜いたんだ〜。えへん、もっと褒めていいよ？','あくあのおっぱい、気持ちよかったでしょ？ …ふん、当然だね','オラオラ〜、あくあで抜くとは分かってるじゃん。ポンコツだけど、ここは自信あるんだよ？♡'],
+    chloe:['クロヱで抜いたんか。…へへ、まんざらでもないわ','クロヱのおっぱい、気持ちよかった？ …せやろ。もっと触りにきてもええで','ふん、クロヱで抜くとは、なかなかやるやんか♡'],
+    lamy:['ラミィで抜いたのですね…♡ うふふ、うれしいですわ','ラミィのおっぱい、気持ちよかったですか？ …よかったですの♡','あら…。ラミィで、ですか。うふふ、光栄ですわね♡'],
+    cocoa:['わ〜い！ ココアで抜いてくれたんだ！ えへへ、嬉しいなっ','お姉ちゃんに任せて！ …って、もう終わり？ 早いよ〜','ココアのおっぱい、気持ちよかった？ もっと甘えていいんだよっ'],
+    chiya:['あら…千夜で抜いたんですか？ ふふ、光栄ですね','千夜のおっぱい…気持ちよかったでしょう？ …うふふ、正直ですね','お淑やかに見えても、ここは大きいんですよ？ …知ってました？']
+  };
+  var LOLI=['hibiki','ikazuchi','chino','unicorn','eldridge'];
+  var CHIP_TAGS=['#暁','#花火','#ホタル','#イラストリアス','#響','#雷','#智乃','#ユニコーン','#エルドリッジ','#あくあ','#クロヱ','#ラミィ','#ココア','#千夜','#ロリ巨乳','#爆乳','#パイズリ','#着衣パイズリ','#裸パイズリ','#挟射','#おっぱい','#VR','#漫画','#音声'];
   var DAYN=['日','月','火','水','木','金','土'];
   function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
   function tier(m){ for(var i=0;i<TIERS.length;i++){ if(m<TIERS[i].max) return TIERS[i]; } return TIERS[TIERS.length-1]; }
-  function specialsFor(okazu){ var t=okazu||''; return SPECIALS.filter(function(s){ return t.indexOf(s.tag)>=0; }); }
+  function specialsFor(okazu){ var t=okazu||''; var res=[]; CHARS.forEach(function(c){ if(t.indexOf(c.tag)>=0) res.push(c.girl); });
+    if(t.indexOf('ロリ巨乳')>=0 && !res.some(function(g){ return LOLI.indexOf(g)>=0; })){ res.push(pick(LOLI)); }
+    return res.filter(function(v,i){ return res.indexOf(v)===i; }); }
   function load(){ try{ return JSON.parse(localStorage.getItem(KEY))||[]; }catch(e){ return []; } }
   function save(){ localStorage.setItem(KEY, JSON.stringify(logs)); }
   function dk(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
@@ -220,7 +226,7 @@ body{margin:0;background:#f6f7f3;color:var(--host-fg);font-family:'Inter',system
   function weekChart(){ var days=[]; for(var i=6;i>=0;i--){ days.push(shift(-i)); } var counts=days.map(function(d){ return logs.filter(function(l){return l.day===d;}).length; }); var max=Math.max(3,Math.max.apply(null,counts));
     return '<div class="bar-wrap">'+days.map(function(d,i){ var dt=new Date(d+'T12:00:00'), isT=d===today(), h=counts[i]/max*100;
       return '<div class="bar-col"><div class="bar'+(isT?' today':'')+'" style="height:'+h+'%">'+(counts[i]?'<span class="n">'+counts[i]+'</span>':'')+'</div><div class="bar-day'+(isT?' today':'')+'">'+DAYN[dt.getDay()]+'</div></div>'; }).join('')+'</div>'; }
-  function recRow(l){ var r=tier(l.min), g=GIRLS[r.girl];
+  function recRow(l){ var r=tier(l.min), g=GIRLS[l.girl || pick(r.picks).girl];
     var row=document.createElement('div'); row.className='rec'; row.appendChild(avatar(g,34));
     var mid=document.createElement('div'); mid.style.cssText='flex:1;min-width:0;';
     mid.innerHTML='<div style="font-size:13px"><b>'+l.min+'分</b><span class="tag" style="color:'+r.col+';border:1px solid '+r.col+'">'+r.label+'</span></div><div class="muted" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+(esc(l.okazu)||'おかず不明')+'</div>';
@@ -272,10 +278,10 @@ body{margin:0;background:#f6f7f3;color:var(--host-fg);font-family:'Inter',system
     var okazu=document.getElementById('okazuInput').value.trim();
     var entry={min:Math.round(m*10)/10, okazu:okazu, ts:Date.now(), day:today()};
     logs.push(entry); save();
-    var r=tier(entry.min), g=GIRLS[r.girl];
+    var r=tier(entry.min); var pk=pick(r.picks); var g=GIRLS[pk.girl]; entry.girl=pk.girl;
     var sp=specialsFor(okazu);
-    var spHTML=sp.map(function(s){ var sg=GIRLS[s.girl]; return '<div class="special"><b>'+sg.name+' の特別セリフ</b>'+pick(s.lines)+'</div>'; }).join('');
-    resultHTML='<div class="result" style="border-left:3px solid '+g.c+'">'+bigImg(g).outerHTML+'<div style="flex:1"><div class="muted" style="margin-bottom:3px">'+g.name+'（'+g.role+'）</div><div style="font-size:15px;font-weight:500;line-height:1.5">'+pick(r.lines)+'</div><div class="muted" style="margin-top:8px">今回 '+entry.min+'分 → 評価【'+r.label+'】'+(entry.okazu?' ／ '+esc(entry.okazu):'')+'</div>'+spHTML+'</div></div>';
+    var spHTML=sp.map(function(gk){ var sg=GIRLS[gk]; return '<div class="special"><div class="sav" style="background:'+sg.c+'"><img src="'+sg.img+'" onerror="this.style.display=\'none\'"></div><div><b>'+sg.name+' の特別セリフ</b>'+pick(SLINES[gk])+'</div></div>'; }).join('');
+    resultHTML='<div class="result" style="border-left:3px solid '+g.c+'">'+bigImg(g).outerHTML+'<div style="flex:1"><div class="muted" style="margin-bottom:3px">'+g.name+'</div><div style="font-size:15px;font-weight:500;line-height:1.5">'+pick(pk.lines)+'</div><div class="muted" style="margin-top:8px">今回 '+entry.min+'分 → 評価【'+r.label+'】'+(entry.okazu?' ／ '+esc(entry.okazu):'')+'</div>'+spHTML+'</div></div>';
     render();
     var mi=document.getElementById('minInput'); if(mi) mi.value=''; var oi=document.getElementById('okazuInput'); if(oi) oi.value=''; }
   var sw={running:false,start:0,acc:0,timer:null};
@@ -298,7 +304,7 @@ body{margin:0;background:#f6f7f3;color:var(--host-fg);font-family:'Inter',system
   document.getElementById('sk').addEventListener('change',function(e){ if(e.target.id==='impFile'){ var f=e.target.files[0]; if(!f) return; var rd=new FileReader();
     rd.onload=function(){ try{ var data=JSON.parse(rd.result), inc=(data.logs||data.records||data); if(!Array.isArray(inc)) throw 0;
       var seen={}; logs.forEach(function(l){ seen[l.ts]=true; }); var added=0;
-      inc.forEach(function(l){ if(l&&typeof l.min==='number'&&l.ts&&!seen[l.ts]){ logs.push({min:l.min,okazu:l.okazu||'',ts:l.ts,day:l.day||dk(new Date(l.ts))}); seen[l.ts]=true; added++; } });
+      inc.forEach(function(l){ if(l&&typeof l.min==='number'&&l.ts&&!seen[l.ts]){ logs.push({min:l.min,okazu:l.okazu||'',ts:l.ts,day:l.day||dk(new Date(l.ts)),girl:l.girl}); seen[l.ts]=true; added++; } });
       save(); render(); alert(added+'件読み込んだよ'); }catch(err){ alert('読み込めなかった'); } }; rd.readAsText(f); } });
   function dl(content,name,type){ var blob=new Blob([content],{type:type}); var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); }
   function csv(){ var head='日時,分数,おかず,評価\n'; return head+logs.map(function(l){ var r=tier(l.min); return '"'+fmtTime(l.ts)+'",'+l.min+',"'+String(l.okazu).replace(/"/g,'""')+'","'+r.label+'"'; }).join('\n'); }
